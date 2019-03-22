@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Woshapp Pre Interview Test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+
+
+<body style="
+    width: 100%; 
+    height: 100%; 
+    /* margin: 0px;  */
+    margin: 0 auto; 
+    padding: 0 auto; 
+    /* padding: 0px; */
+    /* display: flex; */
+    /* justify-content: center; */
+">
+    <div
+        style="
+            width: 98%;
+            margin: 0 auto;
+    ">
+
+    <h1>Woshapp Pre-Interview Task</h1>
+    
+    <p>This is a simple app that let's you display, add and delete Todos</p>
+    <p>You can play around with this to see how it works</p>
+
+   
+    
+    <h1>TODOS LIST</h1>
+    <div style=" display: flex; justify-content: center; /* align-items: center; */ margin: 0 auto; padding: 0; width: 100%; height: 100%; /* align-items: center; */ ">
+        <div id="screen" style="margin: 0px auto; padding: 0px; background: black; visibility: hidden; position: fixed; top: 30%; height: 200px; width: 300px; justify-content: space-around; flex-direction: column; display: flex;">
+            <p id="TextElem" style="color: white;  text-align: center; "> Please type something! </p>
+            <button style=" color: white; margin: 0 auto; padding: 0; display: block; text-align: center; color: black; width: 80%; height: 50px; /* bottom: 10%; */ position: relative; " onclick="btnScreen()">OK</button>
+        </div>
+    </div>
+    
+    <div id="todos">
+        <ul id="listan">
+            <li class="user">User 1</li>
+            <li class="user">User 2</li>
+            <li class="user">User 3</li>
+            <li class="user">User 4</li>
+        </ul>
+    </div>
+    <form id="addTodo">
+        <input type="text" name="myTodo" id="TodosElem">
+        <input type="button" id="theButton" value="Add Todo" onclick="addTodo()">
+    </form>
+
+    <hr />
+
+    <h2>OBJECTIVES</h2>
+    <ul>
+        <h3>We want you to create something similiar that can:</h3>
+        <li>Display Todos</li>
+        <li>Add Todos</li>
+        <li>Delete Specific Todos</li>
+        <li>Is pushed to a git repo so that we can download it</li>
+    </ul>
+    <p>So basically, recreate this app</p>
+    <ul>
+        <h3>Bonus:</h3>
+        <li>Edit Todos</li>
+        <li>Change the Todos to users or something else</li>
+        <li>Style it to make it look nice</li>
+    </ul>
+    <p>You really don't need to do any of the bonuses,</p>
+    <p>but if you're feeling confident, knock yourself out</p>
+
+    <h4>We have the basic skeleton of the app prepared for you in our repo</h4>
+    <h4>The task should be fairly straight forward and is expected to take</h4>
+    <h4>about 2-6 hours to complete</h4>
+
+    <h4>You can download the repo here: <a href="https://bitbucket.org/MIDP1/woshapp-pre-interview-todo/src">https://bitbucket.org/MIDP1/woshapp-pre-interview-todo/src</a></h4>
+</div>
+    <footer style="width: 100%; height: 300px">
+
+    </footer>
+</body>
+<script>
+    // let HOST = '127.0.0.1:5000'
+    window.addEventListener("load", function () {
+        getTodoData().then((todos) => {
+
+}).catch((err) => {
+    console.log('\n', new Date().toUTCString(), ': err:\n', err)
+})
+
+
+
+
+// Delete buttons till första users
+    deleteTodoBtn();
+   
+    let close = document.getElementsByClassName("deletebtn");
+    let i;
+    for (i = 0; i < close.length; i++) {
+        close[i].onclick = function() {
+            var div = this.parentElement;
+            div.style.display = "none";
+          }
+    }
+});
+
+
+//skapat delete buttons
+
+function deleteTodoBtn() {
+    let myList = document.getElementsByClassName("user");
+    console.log(myList);
+    let i;
+    for (i = 0; i < myList.length; i++) {
+      let btn = document.createElement("BUTTON");
+      btn.className = "deletebtn";
+      btn.innerHTML = "DELETE";
+      myList[i].appendChild( document.createTextNode( '\u00A0\u00A0') );
+      myList[i].appendChild(btn);
+    }
+}
+
+
+// skapar det nya rad(li) samt öppnar overlay och skapar delete buttons
+function addTodo() {
+    let newtodo = document.createElement("li");
+    let input = document.getElementById("TodosElem").value;
+    let textinput = document.createTextNode(input);
+    newtodo.appendChild(textinput);
+    if (input === '') {
+        
+        document.getElementById("screen").style.visibility = "visible";
+        
+            
+
+      } else {
+        document.getElementById("listan").appendChild(newtodo);
+        document.getElementById("screen").style.visibility = "visible";
+        let txt = "was created";
+        let yo = document.getElementById("TextElem").innerText = document.getElementById("TodosElem").value + " " + txt;
+        
+       
+        
+      }
+
+      document.getElementById("TodosElem").value = "";
+
+      let btn = document.createElement("BUTTON");
+      btn.className = "deletebtn";
+      btn.innerHTML = "DELETE";
+      newtodo.appendChild( document.createTextNode( '\u00A0\u00A0') );
+      newtodo.appendChild(btn);
+
+
+      let close = document.getElementsByClassName("deletebtn");
+
+
+      for (i = 0; i < close.length; i++) {
+        close[i].onclick = function() {
+          let div = this.parentElement;
+          div.style.display = "none";
+        }
+      }
+
+}
+
+
+//stäng overlay
+
+function btnScreen() {
+  document.getElementById("screen").style.visibility = "hidden";
+}
+
+
+
+    
+
+
+
+
+/*JSON */
+
+function getTodoData(){
+        // Have the fn return a promise
+        return new Promise((resolve, reject) => {
+            /**
+             * Use fetch to go to our server and grab api/todos
+             * It defaults to 127.0.0.1:PORT
+             */
+            fetch(`/api/todos`)
+            // Go JSON on the data
+            .then((preTodoData) => preTodoData.json())
+            // Now get the data!
+            .then((todos) => {
+                console.log('\n', new Date().toUTCString(), ': getTodos initial:\n', todos)
+                // Reset the element so we don't end up stacking it up
+                todoDataElem.innerHTML = ''
+                // Now iterate through every found todo and display them
+                todos.forEach((todo, i) => {
+                    console.log('\n', new Date().toUTCString(), ': todo:\n', todo)
+                    // ...we might need something more here!
+                    todoDataElem.innerHTML += `<p>${todo.description}</p>`
+                })
+                resolve(todos)
+            })
+            /**
+             * Kind of sloppy error handling here...but that is not
+             * our main focus on this project
+             * Feel free to improve it though, but don't lose
+             * sleep over it!
+             */
+            .catch((err) => {
+                console.log('\n', new Date().toUTCString(), ': err getTodo:\n', err)
+                
+                alert(err)
+                reject(err)
+            })
+        })
+    }
+    // So run this when starting the app
+    getTodoData().then((todos) => {
+
+    }).catch((err) => {
+        console.log('\n', new Date().toUTCString(), ': err:\n', err)
+    })
+
+    /*******************************************************************************************************************************
+     *
+     * ...and now you're on your own!
+     * We set up some comment blocks below 
+     * where you can start your work
+     * 
+     * GOOD LUCK! :D
+     *
+     *******************************************************************************************************************************/
+
+    /*******************************************************************************************************************************
+     *
+     * ADD TODO
+     *
+     *******************************************************************************************************************************/
+    
+
+    /*******************************************************************************************************************************
+     *
+     * DELETE TODO
+     *
+     *******************************************************************************************************************************/
+   
+
+</script>
+</html>
